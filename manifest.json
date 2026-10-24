@@ -1,0 +1,49 @@
+{
+  "name": "SmartLift - Intelligent Weight Training",
+  "short_name": "SmartLift",
+  "description": "ระบบติดตาม วิเคราะห์ และประเมินการฝึกยกน้ำหนักอัจฉริยะ",
+  "lang": "th",
+  "dir": "ltr",
+
+  "id": "./index.html",
+  "start_url": "./index.html",
+  "scope": "./",
+
+  "display": "standalone",
+  "orientation": "any",
+
+  "background_color": "#eef4ff",
+  "theme_color": "#2563eb",
+
+  "categories": [
+    "fitness",
+    "health",
+    "sports",
+    "lifestyle"
+  ],
+
+  "prefer_related_applications": false,
+
+  "icons": [],
+
+  "shortcuts": [
+    {
+      "name": "เริ่มการฝึก",
+      "short_name": "เริ่มฝึก",
+      "description": "เปิด SmartLift เพื่อเริ่มการฝึก",
+      "url": "./index.html#trainingSection"
+    },
+    {
+      "name": "ดูประวัติการฝึก",
+      "short_name": "ประวัติ",
+      "description": "เปิดประวัติการฝึก SmartLift",
+      "url": "./index.html#historySection"
+    },
+    {
+      "name": "ดูโปรไฟล์",
+      "short_name": "โปรไฟล์",
+      "description": "เปิดหน้าโปรไฟล์ SmartLift",
+      "url": "./index.html#profileSection"
+    }
+  ]
+}

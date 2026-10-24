@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartLift</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- SVG ICONS -->
+  <svg class="svg-defs" aria-hidden="true">
+    <symbol id="icon-dumbbell" viewBox="0 0 64 64">
+      <rect x="6" y="24" width="8" height="16" rx="2"></rect>
+      <rect x="16" y="18" width="8" height="28" rx="2"></rect>
+      <rect x="25" y="28" width="14" height="8" rx="3"></rect>
+      <rect x="40" y="18" width="8" height="28" rx="2"></rect>
+      <rect x="50" y="24" width="8" height="16" rx="2"></rect>
+    </symbol>
+
+    <symbol id="icon-home" viewBox="0 0 64 64">
+      <path d="M10 30L32 12l22 18"></path>
+      <path d="M17 28v24h30V28"></path>
+      <path d="M26 52V38h12v14"></path>
+    </symbol>
+
+    <symbol id="icon-chart" viewBox="0 0 64 64">
+      <path d="M10 52h44"></path>
+      <path d="M16 44l10-12 10 6 12-18"></path>
+      <circle cx="16" cy="44" r="3"></circle>
+      <circle cx="26" cy="32" r="3"></circle>
+      <circle cx="36" cy="38" r="3"></circle>
+      <circle cx="48" cy="20" r="3"></circle>
+    </symbol>
+
+    <symbol id="icon-user" viewBox="0 0 64 64">
+      <circle cx="32" cy="22" r="12"></circle>
+      <path d="M12 56c3-14 13-22 20-22s17 8 20 22"></path>
+    </symbol>
+
+    <symbol id="icon-risk" viewBox="0 0 64 64">
+      <path d="M32 8L58 54H6L32 8z"></path>
+      <path d="M32 24v14"></path>
+      <path d="M32 46h.1"></path>
+    </symbol>
+  </svg>
+
+  <!-- SPLASH -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="splash-logo">
+      <svg><use href="#icon-dumbbell"></use></svg>
+    </div>
+    <h1>SmartLift</h1>
+    <p>Intelligent Weight Training</p>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">แจ้งเตือน</div>
+
+  <!-- LOGIN -->
+  <section class="login-page" id="loginPage">
+    <div class="login-card">
+      <div class="app-logo">
+        <svg><use href="#icon-dumbbell"></use></svg>
+      </div>
+
+      <h1>SmartLift</h1>
+      <p>ระบบติดตามการฝึกยกน้ำหนักอัจฉริยะ เพื่อช่วยลดความเสี่ยงจากการบาดเจ็บ</p>
+
+      <button class="login-btn primary-btn" id="googleLoginBtn">เข้าสู่ระบบด้วย Google</button>
+      <button class="login-btn dark-btn" id="appleLoginBtn">เข้าสู่ระบบด้วย Apple ID</button>
+      <button class="login-btn gray-btn" id="guestLoginBtn">ทดลองใช้งาน</button>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <main class="app hidden" id="appPage">
+
+    <!-- HEADER -->
+    <header class="app-header" id="homeSection">
+      <div>
+        <p id="greetingText">Good Day</p>
+        <h1>SmartLift</h1>
+      </div>
+
+      <button class="profile-button" id="logoutBtn" title="ออกจากระบบ">
+        <svg><use href="#icon-user"></use></svg>
+      </button>
+    </header>
+
+    <!-- DASHBOARD -->
+    <section class="hero-card">
+      <div class="hero-top">
+        <div>
+          <span>Today's Accuracy</span>
+          <strong id="summaryAccuracy">87%</strong>
+        </div>
+
+        <div class="accuracy-ring" id="accuracyRing">87%</div>
+      </div>
+
+      <div class="summary-grid">
+        <div>
+          <span>Session</span>
+          <strong id="summarySession">100</strong>
+        </div>
+
+        <div>
+          <span>Duration</span>
+          <strong id="durationText">00:00</strong>
+        </div>
+
+        <div>
+          <span>Calories</span>
+          <strong id="caloriesText">45 kcal</strong>
+        </div>
+
+        <div>
+          <span>Risk</span>
+          <strong id="riskLabel">Low</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- SENSOR -->
+    <section class="sensor-card">
+      <div>
+        <span>SmartLift Sensor</span>
+        <strong id="sensorStatus">Connected</strong>
+      </div>
+
+      <div class="sensor-info">
+        <span id="batteryText">Battery 92%</span>
+        <span id="signalText">Signal Strong</span>
+      </div>
+    </section>
+
+    <!-- TRAINING STATUS -->
+    <section class="training-status" id="trainingStatus">
+      ยังไม่ได้เริ่มฝึก
+    </section>
+
+    <!-- ACTIONS -->
+    <section class="quick-actions">
+      <button class="action-btn connect-btn" id="connectBtn">เชื่อมต่ออุปกรณ์</button>
+      <button class="action-btn save-btn" id="saveBtn">บันทึกผลวันนี้</button>
+      <button class="action-btn reset-btn" id="resetBtn">รีเซ็ตข้อมูล</button>
+    </section>
+
+    <!-- TRAINING RESULT -->
+    <section class="card" id="trainingSection">
+      <h2>ผลการฝึกวันนี้</h2>
+
+      <div class="goal-row">
+        <span>เป้าหมายวันนี้</span>
+        <strong id="goalText">100 / 120 ครั้ง</strong>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="goalBar"></div>
+      </div>
+
+      <div class="data-row">
+        <span>ยกถูกวิธี</span>
+        <strong id="correctText">87 ครั้ง</strong>
+      </div>
+
+      <div class="data-row">
+        <span>ยกผิดท่า</span>
+        <strong id="errorText">13 ครั้ง</strong>
+      </div>
+
+      <div class="data-row">
+        <span>Error Rate</span>
+        <strong id="errorRateText">13%</strong>
+      </div>
+
+      <div class="data-row">
+        <span>Accuracy</span>
+        <strong id="accuracyText">87%</strong>
+      </div>
+    </section>
+
+    <!-- CHART -->
+    <section class="card">
+      <h2>ความแม่นยำในการฝึก</h2>
+
+      <div class="chart-layout">
+        <div class="score-ring" id="scoreRing">87%</div>
+
+        <div class="chart-box">
+          <canvas id="accuracyChart"></canvas>
+        </div>
+      </div>
+
+      <p class="note" id="trendText">สรุปผลการฝึกวันนี้</p>
+    </section>
+        <!-- RISK SCORE -->
+    <section class="card">
+      <h2>Injury Risk Score</h2>
+
+      <div class="risk-box">
+
+        <div class="risk-icon">
+          <svg>
+            <use href="#icon-risk"></use>
+          </svg>
+        </div>
+
+        <strong id="riskScore">13%</strong>
+
+        <p id="riskText">
+          ความเสี่ยงต่ำ สามารถฝึกต่อได้
+        </p>
+
+      </div>
+    </section>
+
+    <!-- AI COACH -->
+    <section class="card">
+
+      <h2>AI Coach</h2>
+
+      <div class="coach-card">
+
+        <div class="coach-icon">
+          <svg>
+            <use href="#icon-user"></use>
+          </svg>
+        </div>
+
+        <div>
+
+          <strong>คำแนะนำ</strong>
+
+          <p id="coachText">
+            วันนี้คุณทำได้ดี รักษาท่าทางเดิมไว้
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- LEVEL -->
+
+    <section class="card">
+
+      <h2>Level</h2>
+
+      <div class="level-box">
+
+        <h3 id="levelText">
+          Level 1 Beginner
+        </h3>
+
+        <p id="expText">
+          EXP 100 / 500
+        </p>
+
+        <div class="progress-track">
+
+          <div
+            class="progress-fill exp-fill"
+            id="expBar">
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- WEEKLY GOAL -->
+
+    <section class="card">
+
+      <h2>Weekly Goal</h2>
+
+      <div class="goal-row">
+
+        <span>ฝึกครบ</span>
+
+        <strong id="weeklyText">
+          4 / 7 วัน
+        </strong>
+
+      </div>
+
+      <div class="progress-track">
+
+        <div
+          class="progress-fill weekly-fill"
+          id="weeklyBar">
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- HISTORY -->
+
+    <section
+      class="card"
+      id="historySection">
+
+      <h2>ประวัติการฝึก</h2>
+
+      <div class="history-item">
+
+        <span>27 มิ.ย. 2569</span>
+
+        <strong>Accuracy 86%</strong>
+
+      </div>
+
+      <div class="history-item">
+
+        <span>26 มิ.ย. 2569</span>
+
+        <strong>Accuracy 82%</strong>
+
+      </div>
+
+      <div class="history-item">
+
+        <span>25 มิ.ย. 2569</span>
+
+        <strong>Accuracy 79%</strong>
+
+      </div>
+
+    </section>
+
+    <!-- PROFILE -->
+
+    <section
+      class="card"
+      id="profileSection">
+
+      <h2>โปรไฟล์ผู้ใช้</h2>
+
+      <div class="profile-row">
+
+        <span>ชื่อผู้ใช้</span>
+
+        <strong id="profileName">
+          SmartLift User
+        </strong>
+
+      </div>
+
+      <div class="profile-row">
+
+        <span>จำนวนครั้งรวม</span>
+
+        <strong id="profileTotal">
+          100 ครั้ง
+        </strong>
+
+      </div>
+
+      <div class="profile-row">
+
+        <span>Accuracy เฉลี่ย</span>
+
+        <strong id="profileAccuracy">
+          87%
+        </strong>
+
+      </div>
+
+      <div class="profile-row">
+
+        <span>อุปกรณ์</span>
+
+        <strong>
+          SmartLift Sensor
+        </strong>
+
+      </div>
+
+    </section>
+
+    <!-- ACHIEVEMENT -->
+
+    <section class="card">
+
+      <h2>Achievement</h2>
+
+      <div class="medal-grid">
+
+        <div class="medal-card">
+
+          <div class="medal bronze" id="bronzeMedal">
+        <svg>
+        <use href="#icon-dumbbell"></use>
+        </svg>
+    </div>
+
+          <h4>Beginner</h4>
+
+          <p>ยกครบ 100 ครั้ง</p>
+
+          <span
+            class="unlock"
+            id="beginnerStatus">
+
+            Unlocked
+
+          </span>
+
+        </div>
+
+        <div class="medal-card">
+
+          <div class="medal silver" id="silverMedal">
+  <svg>
+    <use href="#icon-dumbbell"></use>
+  </svg>
+</div>
+
+          <h4>Advanced</h4>
+
+          <p>ยกครบ 500 ครั้ง</p>
+
+          <span
+            class="lock"
+            id="advancedStatus">
+
+            Locked
+
+          </span>
+
+        </div>
+
+        <div class="medal-card">
+
+          <div class="medal gold" id="goldMedal">
+  <svg>
+    <use href="#icon-dumbbell"></use>
+  </svg>
+</div>
+
+          <h4>Expert</h4>
+
+          <p>ยกครบ 1000 ครั้ง</p>
+
+          <span
+            class="lock"
+            id="expertStatus">
+
+            Locked
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- START BUTTON -->
+
+    <button
+      class="start-btn"
+      id="startBtn">
+
+      เริ่มการฝึก
+
+    </button>
+
+  </main>
+    <!-- BOTTOM NAVIGATION -->
+
+  <nav class="bottom-nav hidden" id="bottomNav">
+
+    <div class="nav-item active" data-target="homeSection">
+      <svg>
+        <use href="#icon-home"></use>
+      </svg>
+      <span>หน้าหลัก</span>
+    </div>
+
+    <div class="nav-item" data-target="trainingSection">
+      <svg>
+        <use href="#icon-dumbbell"></use>
+      </svg>
+      <span>การฝึก</span>
+    </div>
+
+    <div class="nav-item" data-target="historySection">
+      <svg>
+        <use href="#icon-chart"></use>
+      </svg>
+      <span>ประวัติ</span>
+    </div>
+
+    <div class="nav-item" data-target="profileSection">
+      <svg>
+        <use href="#icon-user"></use>
+      </svg>
+      <span>โปรไฟล์</span>
+    </div>
+
+  </nav>
+
+
+  <!-- LIVE TRAINING POPUP -->
+
+  <section class="live-modal" id="liveModal">
+
+    <div class="modal-card">
+
+      <button class="close-btn" id="closeLiveBtn">
+        ×
+      </button>
+
+      <div class="live-badge">
+        LIVE SENSOR
+      </div>
+
+      <h2>กำลังฝึก</h2>
+
+      <div class="live-dumbbell">
+        <svg>
+          <use href="#icon-dumbbell"></use>
+        </svg>
+      </div>
+
+      <div class="live-grid">
+
+        <div>
+          <span>เวลา</span>
+          <strong id="liveTime">00:00</strong>
+        </div>
+
+        <div>
+          <span>Session</span>
+          <strong id="liveSession">100</strong>
+        </div>
+
+        <div>
+          <span>ถูกต้อง</span>
+          <strong id="liveCorrect">87</strong>
+        </div>
+
+        <div>
+          <span>ผิดท่า</span>
+          <strong id="liveError">13</strong>
+        </div>
+
+      </div>
+
+      <p id="liveFeedback">
+        พร้อมเริ่มการฝึก
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ACHIEVEMENT POPUP -->
+
+  <section class="achievement-modal" id="achievementModal">
+
+    <div class="modal-card">
+
+      <h2>Achievement Unlocked</h2>
+
+      <div class="modal-medal bronze" id="modalMedal">
+        <svg>
+          <use href="#icon-dumbbell"></use>
+        </svg>
+      </div>
+
+      <h3 id="modalTitle">
+        Beginner
+      </h3>
+
+      <p id="modalText">
+        ยกครบ 100 ครั้ง
+      </p>
+
+      <button class="modal-btn" id="closeAchievementBtn">
+        Continue
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- REPORT POPUP -->
+
+  <section class="report-modal" id="reportModal">
+
+    <div class="modal-card">
+
+      <h2>Training Report</h2>
+
+      <p id="reportDate">
+        วันนี้
+      </p>
+
+      <div class="report-row">
+        <span>Accuracy</span>
+        <strong id="reportAccuracy">87%</strong>
+      </div>
+
+      <div class="report-row">
+        <span>Correct Lift</span>
+        <strong id="reportCorrect">87</strong>
+      </div>
+
+      <div class="report-row">
+        <span>Wrong Lift</span>
+        <strong id="reportError">13</strong>
+      </div>
+
+      <div class="report-row">
+        <span>Duration</span>
+        <strong id="reportDuration">00:00</strong>
+      </div>
+
+      <div class="report-row">
+        <span>Calories</span>
+        <strong id="reportCalories">45 kcal</strong>
+      </div>
+
+      <div class="report-row">
+        <span>Risk</span>
+        <strong id="reportRisk">Low</strong>
+      </div>
+
+      <button class="modal-btn" id="closeReportBtn">
+        ปิดรายงาน
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
